@@ -1,11 +1,12 @@
 import React from 'react'
+import Home from '@/components/organisms/Home'
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   return (
     <main>
-      <h1>teste</h1>
+      <Home />
     </main>
   )
 }
 
-export default Home
+export default HomePage

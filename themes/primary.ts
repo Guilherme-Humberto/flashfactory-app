@@ -1,19 +1,18 @@
 export const theme = {
   colors: {
-    primary: '#db423d',
-    secondary: '#370617',
+    primary: '#621CF9',
+    secondary: '#15181B',
     tertiary: '#03071e',
     danger: '#e63946',
     warning: '#ffb703',
     success: '#52b788',
-    font: '#000000',
+    font: '#ffffff',
     white: '#ffffff',
     dark: '#000000',
-    background: '#f7efee'
+    background:
+      'linear-gradient(360deg, #0E1012 0%, rgba(22, 24, 42, 0.95) 100%);'
   },
   fonts: {
-    primary: 'Poppins, sans-serif',
-    secondary: 'Josefin Sans, sans-serif',
-    tertiary: ''
+    primary: 'Ubuntu, sans-serif'
   }
 }

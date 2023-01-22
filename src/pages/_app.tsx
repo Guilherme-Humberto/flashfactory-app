@@ -1,7 +1,4 @@
-import Footer from '@components/organisms/Footer'
-import Header from '@components/organisms/Header'
-import '@splidejs/splide/dist/css/themes/splide-skyblue.min.css'
-
+import React from 'react'
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyles } from '../styles/global'
@@ -11,9 +8,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <Header />
       <Component {...pageProps} />
-      <Footer />
     </ThemeProvider>
   )
 }

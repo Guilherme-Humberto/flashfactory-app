@@ -1,6 +1,6 @@
-import styled, { css, createGlobalStyle } from 'styled-components'
-import { AiOutlineInstagram, AiOutlineFacebook } from 'react-icons/ai'
-import { FaWhatsapp } from 'react-icons/fa'
+import '@splidejs/splide/dist/css/themes/splide-skyblue.min.css'
+
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
     *,
@@ -10,16 +10,11 @@ export const GlobalStyles = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
     }
-    html {
-        font-size: 62.5%;
-    }
     body {
         min-height: 100vh;
         background: ${props => props.theme.colors.background};
         overflow-x: hidden;
-        letter-spacing: 0.05rem;
     }
-
     body,
     input,
     button,
@@ -27,8 +22,13 @@ export const GlobalStyles = createGlobalStyle`
     select {
         font-family: ${props => props.theme.fonts.primary};
         font-weight: 400;
-        font-size: 1.6rem;
         color: ${props => props.theme.colors.font};
+    }
+    input,
+    button {
+        border: none;
+        outline: none;
+        background: transparent;
     }
     img {
         display: block;
@@ -46,23 +46,4 @@ export const GlobalStyles = createGlobalStyle`
         max-width: 1440px;
         margin: 0 auto;
     }
-`
-
-export const Flex = css`
-  display: flex;
-  align-items: center;
-`
-
-const Icon = css`
-  font-size: 2rem;
-`
-
-export const InstagramIcon = styled(AiOutlineInstagram)`
-  ${Icon}
-`
-export const FacebookIcon = styled(AiOutlineFacebook)`
-  ${Icon}
-`
-export const WhatsAppIcon = styled(FaWhatsapp)`
-  ${Icon}
 `
