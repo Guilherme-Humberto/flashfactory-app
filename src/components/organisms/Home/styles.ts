@@ -113,4 +113,9 @@ export const SocialsWrapper = styled.div`
     gap: 10px;
     font-size: 16px;
   }
+
+  button:hover {
+    cursor: pointer;
+    color: ${props => props.theme.colors.primary2};
+  }
 `

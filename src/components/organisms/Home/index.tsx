@@ -1,15 +1,39 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import * as IconFI from 'react-icons/fi'
 import * as IconAI from 'react-icons/ai'
 import * as Styles from './styles'
 import Logo from '@/components/atoms/Logo'
 import Input from '@/components/atoms/Input'
+import { githubBaseUrl, googleBaseUrl } from '@/configs/auth'
+import { clearAllCoookies, getCookie } from '@/utils/cookies'
 
 const Home: React.FC = () => {
-  const [openModal, setOpenModal] = useState('')
+  const router = useRouter()
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [openModal, setOpenModal] = useState('')
+
+  const handleAuthWithGitHub = async () => {
+    clearAllCoookies()
+    return router.push(githubBaseUrl())
+  }
+
+  const handleAuthWithGoogle = async () => {
+    clearAllCoookies()
+    return router.push(googleBaseUrl())
+  }
+
+  const checkIsAuthenticated = () => {
+    const isAuthenticated = getCookie('user.token')
+    if (isAuthenticated.status) return router.push('/admin')
+  }
+
+  useEffect(() => {
+    checkIsAuthenticated()
+  }, [])
 
   return (
     <Styles.Container>
@@ -68,11 +92,11 @@ const Home: React.FC = () => {
                 setState={setPassword}
               />
               <Styles.SocialsWrapper>
-                <button>
-                  <IconAI.AiFillGithub size={25} /> Entrar com Github
+                <button type="button" onClick={handleAuthWithGitHub}>
+                  <IconAI.AiFillGithub size={25} /> Acessar com Github
                 </button>
-                <button>
-                  <IconAI.AiFillGoogleCircle size={25} /> Entrar com Google
+                <button type="button" onClick={handleAuthWithGoogle}>
+                  <IconAI.AiFillGoogleCircle size={25} /> Acessar com Google
                 </button>
               </Styles.SocialsWrapper>
               <Styles.Button
