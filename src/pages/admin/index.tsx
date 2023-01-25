@@ -1,12 +1,12 @@
+import Admin from '@/components/organisms/Admin'
 import React from 'react'
 
-const Admin: React.FC = () => {
+const AdminPage: React.FC = () => {
   return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam facere
-      dolorem ipsa. Aliquam, tempora ipsa.
-    </div>
+    <main id="admin-page">
+      <Admin />
+    </main>
   )
 }
 
-export default Admin
+export default AdminPage

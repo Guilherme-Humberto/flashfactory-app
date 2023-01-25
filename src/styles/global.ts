@@ -1,6 +1,7 @@
 import '@splidejs/splide/dist/css/themes/splide-skyblue.min.css'
 
 import { createGlobalStyle } from 'styled-components'
+export * as IconFI from 'react-icons/fi'
 
 export const GlobalStyles = createGlobalStyle`
     *,
@@ -45,5 +46,12 @@ export const GlobalStyles = createGlobalStyle`
     .constraint {
         max-width: 1440px;
         margin: 0 auto;
+    }
+
+    // Pages
+    #admin-page {
+        width: 100%;
+        min-height: 100vh;
+        background: ${props => props.theme.colors.secondary};
     }
 `
