@@ -7,6 +7,7 @@ import Logo from '@/components/atoms/Logo'
 import Input from '@/components/atoms/Input'
 import { githubBaseUrl, googleBaseUrl } from '@/configs/auth'
 import { clearAllCoookies, getCookie } from '@/utils/cookies'
+import { api } from '@/services/api'
 
 const Home: React.FC = () => {
   const router = useRouter()
@@ -24,6 +25,41 @@ const Home: React.FC = () => {
   const handleAuthWithGoogle = async () => {
     clearAllCoookies()
     return router.push(googleBaseUrl())
+  }
+
+  const handleCreateLocalAccount = async (event: React.FormEvent) => {
+    try {
+      event.preventDefault()
+
+      await api.post('/user/create', {
+        name,
+        email,
+        password
+      })
+
+      setOpenModal('login-account')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleLoginLocalAccount = async (event: React.FormEvent) => {
+    try {
+      event.preventDefault()
+
+      const data = {
+        email,
+        password
+      }
+
+      await api.post('/user/login', data, {
+        withCredentials: true
+      })
+
+      return router.push('/admin')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const checkIsAuthenticated = () => {
@@ -72,7 +108,7 @@ const Home: React.FC = () => {
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam
               corrupti veritatis enim beatae possimus accusamus!
             </Styles.ModalSubTitle>
-            <Styles.Form>
+            <Styles.Form onSubmit={handleCreateLocalAccount}>
               <Input
                 type="text"
                 value={name}
@@ -99,12 +135,47 @@ const Home: React.FC = () => {
                   <IconAI.AiFillGoogleCircle size={25} /> Acessar com Google
                 </button>
               </Styles.SocialsWrapper>
-              <Styles.Button
-                type="submit"
-                className="fill"
-                onClick={() => setOpenModal('create-account')}
-              >
+              <Styles.Button type="submit" className="fill">
                 Criar minha conta
+              </Styles.Button>
+            </Styles.Form>
+          </Styles.ModalContent>
+        </Styles.ModalContainer>
+      )}
+      {openModal === 'login-account' && (
+        <Styles.ModalContainer>
+          <Styles.ModalContent>
+            <Styles.ModalBtnClose onClick={() => setOpenModal('')}>
+              <IconFI.FiX size={25} />
+            </Styles.ModalBtnClose>
+            <Styles.ModalTitle>Criar Conta</Styles.ModalTitle>
+            <Styles.ModalSubTitle>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam
+              corrupti veritatis enim beatae possimus accusamus!
+            </Styles.ModalSubTitle>
+            <Styles.Form onSubmit={handleLoginLocalAccount}>
+              <Input
+                type="email"
+                value={email}
+                placeholder="Informe seu email"
+                setState={setEmail}
+              />
+              <Input
+                type="password"
+                value={password}
+                placeholder="Informe sua senha"
+                setState={setPassword}
+              />
+              <Styles.SocialsWrapper>
+                <button type="button" onClick={handleAuthWithGitHub}>
+                  <IconAI.AiFillGithub size={25} /> Acessar com Github
+                </button>
+                <button type="button" onClick={handleAuthWithGoogle}>
+                  <IconAI.AiFillGoogleCircle size={25} /> Acessar com Google
+                </button>
+              </Styles.SocialsWrapper>
+              <Styles.Button type="submit" className="fill">
+                Acessar minha conta
               </Styles.Button>
             </Styles.Form>
           </Styles.ModalContent>
