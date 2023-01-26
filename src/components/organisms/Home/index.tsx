@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import * as IconFI from 'react-icons/fi'
 import * as IconAI from 'react-icons/ai'
+import * as Global from '@/styles/global'
 import * as Styles from './styles'
 import Logo from '@/components/atoms/Logo'
 import Input from '@/components/atoms/Input'
@@ -46,6 +47,7 @@ const Home: React.FC = () => {
   const handleLoginLocalAccount = async (event: React.FormEvent) => {
     try {
       event.preventDefault()
+      clearAllCoookies()
 
       const data = {
         email,
@@ -76,25 +78,25 @@ const Home: React.FC = () => {
       <Styles.Constraint>
         <Logo />
         <Styles.Title>
-          Gerenciamento de squads e projetos de alta performance{' '}
+          Uma maneira simples e objetiva para organizar seus estudos.
         </Styles.Title>
         <Styles.SubTitle>
-          Perfeito para gerenciamento de times e projetos de forma simples.
-          Foque na produtividade no seu dia a dia.
+          Torne sua rotina de estudos mais efetiva criando flashcards para
+          testar seus conhecimentos e organizar seus estudos.
         </Styles.SubTitle>
         <Styles.Buttons>
-          <Styles.Button
+          <Global.ButtonDefault
             className="fill"
             onClick={() => setOpenModal('create-account')}
           >
             Criar minha conta
-          </Styles.Button>
-          <Styles.Button
+          </Global.ButtonDefault>
+          <Global.ButtonDefault
             className="outline"
             onClick={() => setOpenModal('login-account')}
           >
             Acessar minha conta
-          </Styles.Button>
+          </Global.ButtonDefault>
         </Styles.Buttons>
       </Styles.Constraint>
       {openModal === 'create-account' && (
@@ -135,9 +137,9 @@ const Home: React.FC = () => {
                   <IconAI.AiFillGoogleCircle size={25} /> Acessar com Google
                 </button>
               </Styles.SocialsWrapper>
-              <Styles.Button type="submit" className="fill">
+              <Global.ButtonDefault type="submit" className="fill">
                 Criar minha conta
-              </Styles.Button>
+              </Global.ButtonDefault>
             </Styles.Form>
           </Styles.ModalContent>
         </Styles.ModalContainer>
@@ -174,9 +176,9 @@ const Home: React.FC = () => {
                   <IconAI.AiFillGoogleCircle size={25} /> Acessar com Google
                 </button>
               </Styles.SocialsWrapper>
-              <Styles.Button type="submit" className="fill">
+              <Global.ButtonDefault type="submit" className="fill">
                 Acessar minha conta
-              </Styles.Button>
+              </Global.ButtonDefault>
             </Styles.Form>
           </Styles.ModalContent>
         </Styles.ModalContainer>

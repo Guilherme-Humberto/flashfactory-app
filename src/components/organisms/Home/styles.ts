@@ -30,27 +30,6 @@ export const Buttons = styled.div`
   justify-content: center;
   gap: 20px;
 `
-
-export const Button = styled.button`
-  border-radius: 100px;
-  padding: 20px 30px;
-  font-size: 20px;
-  font-weight: bold;
-  transition: 0.5s;
-
-  &.fill {
-    background: ${props => props.theme.colors.primary};
-  }
-  &.outline {
-    border: 2px solid ${props => props.theme.colors.primary};
-    background: transparent;
-  }
-
-  &:hover {
-    cursor: pointer;
-    letter-spacing: 2px;
-  }
-`
 export const ModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -90,7 +69,6 @@ export const ModalTitle = styled.strong`
 export const ModalSubTitle = styled.span`
   font-weight: 300;
   font-size: 18px;
-  line-height: 25px;
   max-width: 600px;
 `
 

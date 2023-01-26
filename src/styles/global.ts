@@ -1,6 +1,6 @@
-import '@splidejs/splide/dist/css/themes/splide-skyblue.min.css'
+import '@splidejs/react-splide/css'
 
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 export * as IconFI from 'react-icons/fi'
 
 export const GlobalStyles = createGlobalStyle`
@@ -21,6 +21,7 @@ export const GlobalStyles = createGlobalStyle`
     button,
     textarea,
     select {
+        line-height: 30px;
         font-family: ${props => props.theme.fonts.primary};
         font-weight: 400;
         color: ${props => props.theme.colors.font};
@@ -54,4 +55,27 @@ export const GlobalStyles = createGlobalStyle`
         min-height: 100vh;
         background: ${props => props.theme.colors.secondary};
     }
+`
+
+export const ButtonDefault = styled.button`
+  border-radius: 10px;
+  padding: 20px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.5s;
+  border: 2px solid ${props => props.theme.colors.primary};
+
+  &.fill {
+    background: ${props => props.theme.colors.primary};
+  }
+  &.outline {
+    background: transparent;
+  }
+
+  &:hover {
+    cursor: pointer;
+    letter-spacing: 2px;
+    background: ${props => props.theme.colors.success};
+    border-color: ${props => props.theme.colors.success};
+  }
 `

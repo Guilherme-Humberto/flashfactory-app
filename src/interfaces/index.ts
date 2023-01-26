@@ -1,52 +1,18 @@
-interface IAttrs {
-  data: {
-    attributes: { url: string }
-  }
+export interface IFlashcard {
+  front: string
+  back: string
+  status: string
+  created_at: string
+  updated_at: string
 }
 
-interface IPostProps {
-  data: {
-    attributes: {
-      title?: string
-      name?: string
-    }
-  }
-}
-
-export interface IBannerSlideProps {
+export interface IDeck {
   id: number
-  url: string
-  attributes: {
-    url: string
-  }
-}
-
-export interface IBanner {
   title: string
-  attributes: {
-    slug: string
-    slides: { data: IBannerSlideProps[] }
-  }
-}
-
-export interface IAuthor {
-  id: number
-  attributes: {
-    name: string
-    email: string
-    photo: IAttrs
-  }
-}
-
-export interface IPosts {
-  id: number
-  attributes: {
-    content: string
-    title: string
-    createdAt: Date
-    excerpt: string
-    image: IAttrs
-    category: IPostProps
-    author: IPostProps
-  }
+  description: string
+  status: number
+  code: string
+  created_at: string
+  updated_at: string
+  flashcards: IFlashcard[]
 }

@@ -5,7 +5,7 @@ const Logo: React.FC = () => {
   return (
     <Styles.Container>
       <span className="first">
-        My<span className="second">Flashcards</span>
+        Flash<span className="second">Factory</span>
       </span>
     </Styles.Container>
   )

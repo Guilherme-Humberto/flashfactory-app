@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@next/font": "13.1.4",
-    "@splidejs/react-splide": "^0.6.17",
+    "@splidejs/react-splide": "^0.7.12",
     "axios": "^0.21.1",
     "next": "13.1.4",
     "react": "18.2.0",

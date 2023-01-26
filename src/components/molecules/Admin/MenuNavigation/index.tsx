@@ -8,7 +8,7 @@ const links = [
     link: '/admin'
   },
   {
-    name: 'Baralhos',
+    name: 'Meus Baralhos',
     link: '#'
   }
 ]
