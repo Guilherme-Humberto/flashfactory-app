@@ -49,14 +49,8 @@ const Home: React.FC = () => {
       event.preventDefault()
       clearAllCoookies()
 
-      const data = {
-        email,
-        password
-      }
-
-      await api.post('/user/login', data, {
-        withCredentials: true
-      })
+      const data = { email, password }
+      await api.post('/auth/local/login', data)
 
       return router.push('/admin')
     } catch (error) {
