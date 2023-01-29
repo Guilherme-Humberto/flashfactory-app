@@ -11,7 +11,7 @@ import ModalComponent from '@/components/molecules/Modal'
 import DeckFormCreate from '@/components/molecules/Admin/Deck/Create'
 import DeckViewDetails from '@/components/molecules/Admin/Deck/ViewDetails'
 
-const Admin: React.FC = () => {
+const AdminInitial: React.FC = () => {
   const { user } = useAppContext()
 
   const [modalAction, setModalAction] = useState<string>('')
@@ -80,9 +80,13 @@ const Admin: React.FC = () => {
                       >
                         <Global.IconFI.FiEye />
                       </Styles.DeckButtonAction>
-                      <Styles.DeckButtonAction className="fill">
-                        <Global.IconFI.FiPlay />
-                      </Styles.DeckButtonAction>
+                      {item.flashcards.length > 0 ? (
+                        <Styles.DeckButtonAction className="fill">
+                          <Global.IconFI.FiPlay />
+                        </Styles.DeckButtonAction>
+                      ) : (
+                        <p>Este baralho não possui nenhuma carta</p>
+                      )}
                     </Styles.DeckButtonsActions>
                   </Styles.DeckCard>
                 </Styles.DeckSlideItem>
@@ -120,4 +124,4 @@ const Admin: React.FC = () => {
   )
 }
 
-export default Admin
+export default AdminInitial

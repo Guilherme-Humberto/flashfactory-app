@@ -12,6 +12,8 @@ export const SubTitle = styled.small`
   line-height: 30px;
 `
 export const DeckDate = styled.span`
+  display: block;
+  margin: 10px 0;
   color: ${props => props.theme.colors.gray};
 `
 export const Form = styled.form`

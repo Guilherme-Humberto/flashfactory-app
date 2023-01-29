@@ -3,32 +3,34 @@ import Input from '@/components/atoms/Input'
 import * as Global from '@/styles/global'
 import * as Styles from './styles'
 import { api } from '@/services/api'
+import { IDeck, ISelect } from '@/interfaces'
 import SelectForm from '@/components/atoms/Select'
-import { ISelect } from '@/interfaces'
 
 interface Props {
+  deckData: IDeck
   fetch?: () => Promise<void>
   modalAction: React.Dispatch<React.SetStateAction<string>>
 }
-
 const statusOption = [
   { label: 'Ativo', value: true },
   { label: 'Inativo', value: false }
 ]
 
-const DeckFormCreate: React.FC<Props> = ({ fetch, modalAction }) => {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [status, setStatus] = useState<ISelect>(statusOption[1])
+const DeckFormUpdate: React.FC<Props> = ({ fetch, deckData, modalAction }) => {
+  const [title, setTitle] = useState(deckData.title)
+  const [description, setDescription] = useState(deckData.description)
+  const [status, setStatus] = useState<ISelect>(
+    statusOption.find(item => item.value === (deckData.status == 1)) as ISelect
+  )
 
   const handleCreateNewDeck = async (event: React.FormEvent) => {
     try {
       event.preventDefault()
 
-      await api.post('/deck/create', {
+      await api.put(`/deck/update/${deckData.id}`, {
         title,
         description,
-        status: status.value
+        status: status?.value
       })
 
       if (fetch) await fetch()
@@ -40,7 +42,7 @@ const DeckFormCreate: React.FC<Props> = ({ fetch, modalAction }) => {
 
   return (
     <Styles.Container>
-      <Styles.Title>Criar baralho</Styles.Title>
+      <Styles.Title>Atualizar baralho</Styles.Title>
       <Styles.SubTitle>
         Um baralhos permitem organizar os seus flashcards. <br /> Preencha as
         informações abaixo para criar um novo baralho.
@@ -84,4 +86,4 @@ const DeckFormCreate: React.FC<Props> = ({ fetch, modalAction }) => {
   )
 }
 
-export default DeckFormCreate
+export default DeckFormUpdate

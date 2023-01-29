@@ -21,4 +21,9 @@ export const MenuItem = styled.span<{ active: boolean }>`
     css`
       border-bottom-color: ${props => props.theme.colors.primary};
     `}
+
+  &:hover {
+    cursor: pointer;
+    border-bottom-color: ${props => props.theme.colors.primary};
+  }
 `

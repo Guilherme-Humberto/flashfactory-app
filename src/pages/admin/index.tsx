@@ -1,5 +1,5 @@
-import Admin from '@/components/organisms/Admin'
 import React from 'react'
+import Admin from '@/components/organisms/Admin/Initial'
 
 const AdminPage: React.FC = () => {
   return (

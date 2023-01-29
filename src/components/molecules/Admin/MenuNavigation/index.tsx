@@ -9,7 +9,7 @@ const links = [
   },
   {
     name: 'Meus Baralhos',
-    link: '#'
+    link: '/admin/decks'
   }
 ]
 
@@ -19,7 +19,11 @@ const AdminMenuNavigation: React.FC = () => {
     <Styles.Container>
       <Styles.MenuList>
         {links.map((item, index) => (
-          <Styles.MenuItem key={index} active={router.pathname == item.link}>
+          <Styles.MenuItem
+            key={index}
+            active={router.pathname == item.link}
+            onClick={() => router.push(item.link)}
+          >
             {item.name}
           </Styles.MenuItem>
         ))}

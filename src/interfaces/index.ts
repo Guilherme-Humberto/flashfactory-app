@@ -11,8 +11,20 @@ export interface IDeck {
   title: string
   description: string
   status: number
-  code: string
   created_at: string
   updated_at: string
   flashcards: IFlashcard[]
+}
+
+export interface IPagination {
+  totalItems: number
+  itemCount: number
+  itemsPerPage: number
+  totalPages: number
+  currentPage: number
+}
+
+export interface ISelect {
+  label: string
+  value: string | boolean
 }

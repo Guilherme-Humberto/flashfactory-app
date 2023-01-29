@@ -4,11 +4,13 @@ import * as Styles from './styles'
 import * as Global from '@/styles/global'
 import { api } from '@/services/api'
 import { useRouter } from 'next/router'
+import { clearAllCoookies } from '@/utils/cookies'
 
 const AdminHeader: React.FC = () => {
   const router = useRouter()
 
   const handleLogOutSession = async () => {
+    clearAllCoookies()
     await api.post('/auth/logout', null)
     return router.push('/')
   }

@@ -50,9 +50,7 @@ const Home: React.FC = () => {
       clearAllCoookies()
 
       const data = { email, password }
-      await api.post('/auth/local/login', data)
-
-      return router.push('/admin')
+      return await api.post('/auth/local/login', data)
     } catch (error) {
       console.log(error)
     }
