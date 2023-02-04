@@ -1,7 +1,7 @@
 import React from 'react'
 import DecksInitial from '@/components/organisms/Admin/Decks'
 
-const AdminDecksPage: React.FC = () => {
+const AdminDecksListPage: React.FC = () => {
   return (
     <main id="admin-page">
       <DecksInitial />
@@ -9,4 +9,4 @@ const AdminDecksPage: React.FC = () => {
   )
 }
 
-export default AdminDecksPage
+export default AdminDecksListPage

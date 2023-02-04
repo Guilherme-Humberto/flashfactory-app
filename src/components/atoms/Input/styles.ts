@@ -6,8 +6,9 @@ export const Container = styled.div`
   gap: 10px;
 `
 export const Label = styled.label`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
+  color: #cccccc80;
 `
 export const Input = styled.input`
   width: 100%;
@@ -20,9 +21,9 @@ export const Input = styled.input`
     color: #6f6767;
   }
 `
-export const TextArea = styled.textarea`
+export const TextArea = styled.textarea<{ minHeight?: string }>`
   width: 100%;
-  min-height: 150px;
+  min-height: ${props => (props.minHeight ? props.minHeight : '150px')};
   padding: 20px 30px;
   background: #1c2024;
   font-size: 18px;

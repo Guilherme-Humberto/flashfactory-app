@@ -8,6 +8,7 @@ interface InputProps {
   required?: boolean
   isMultiple?: boolean
   placeholder: string
+  minHeight?: string
   setState: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -15,6 +16,7 @@ const Input: React.FC<InputProps> = ({
   type,
   value,
   label,
+  minHeight,
   required,
   isMultiple,
   setState,
@@ -33,6 +35,7 @@ const Input: React.FC<InputProps> = ({
         />
       ) : (
         <Styles.TextArea
+          minHeight={minHeight}
           required={required}
           placeholder={placeholder}
           value={value}

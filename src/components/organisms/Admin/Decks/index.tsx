@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import AdminHeader from '@/components/molecules/Admin/Header'
 import AdminMenuNavigation from '@/components/molecules/Admin/MenuNavigation'
 import { IDeck } from '@/interfaces'
@@ -20,13 +21,14 @@ const DecksInitial: React.FC = () => {
     currentPage: 1
   }
 
-  const [pagination, setPagination] = useState(initialPaginationState)
-
   const [modalAction, setModalAction] = useState<string>('')
   const [searchDeck, setSearchDeck] = useState<string>('')
   const [deckList, setDeckList] = useState<IDeck[]>([])
   const [deckData, setDeckData] = useState<IDeck>({} as IDeck)
   const [deckListFilter, setDeckListFilter] = useState<IDeck[]>([])
+  const [pagination, setPagination] = useState(initialPaginationState)
+
+  const router = useRouter()
 
   const handleChangePagination = (page: number) => {
     return setPagination(state => ({ ...state, currentPage: page + 1 }))
@@ -121,7 +123,12 @@ const DecksInitial: React.FC = () => {
                     {new Date(item.created_at).toLocaleDateString()}
                   </Styles.DeckTableRowItem>
                   <Styles.DeckTableRowItem className="btn-actions">
-                    <Styles.DeckTableRowBtn className="btn-action-info">
+                    <Styles.DeckTableRowBtn
+                      className="btn-action-info"
+                      onClick={() =>
+                        router.push(`/admin/decks/details/${item.id}`)
+                      }
+                    >
                       <Global.IconFI.FiInfo />
                     </Styles.DeckTableRowBtn>
                     <Styles.DeckTableRowBtn
