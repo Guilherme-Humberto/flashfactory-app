@@ -49,25 +49,24 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
   ) => {
     try {
       const existsTags = flashCardData?.tags as ITag[]
+      const listRemoveTags = existsTags.filter((tag, index) => {
+        return !tagList.find(tagItem => tag?.id == tagItem?.id)
+      })
 
-      if (tagList < existsTags) {
-        const removeTags = existsTags.filter(
-          (tag, index) => tag.id !== tagList[index]?.id
-        )
+      const listNewTags = tagList.filter((tag, index) => {
+        return !existsTags.find(tagItem => tag?.title == tagItem?.title)
+      })
 
-        const response = removeTags.map(async tag => {
+      if (listRemoveTags.length > 0) {
+        const response = listRemoveTags.map(async tag => {
           return await api.delete(`/tag/delete/${tag?.id}/flashcard/${cardId}`)
         })
 
         await Promise.all(response)
-      } else {
-        const addNewTags = tagList.filter(
-          (tag, index) =>
-            tag?.title != existsTags[index]?.title &&
-            tag?.color != existsTags[index]?.color
-        )
+      }
 
-        await handleCreateFlashCardTags(cardId, addNewTags)
+      if (listNewTags.length > 0) {
+        await handleCreateFlashCardTags(cardId, listNewTags)
       }
 
       setModalAction('')

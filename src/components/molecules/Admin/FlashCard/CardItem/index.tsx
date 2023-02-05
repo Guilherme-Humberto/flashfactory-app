@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ReactCardFlip from 'react-card-flip'
 import { IFlashcard } from '@/interfaces'
 import { IconFI } from '@/styles/global'
 import * as Styles from './styles'
@@ -20,31 +21,37 @@ const FlashCardItem: React.FC<Props> = ({
   const [flipCard, setFlipCard] = useState<boolean>(false)
 
   return (
-    <Styles.Container flip={flipCard}>
-      <Styles.FlashCardContent className="flip-card-inner">
-        <div className="flip-card-front">
-          <Styles.FlashCardStatus style={{ color: theme.colors.warning }}>
-            Frente
-          </Styles.FlashCardStatus>
-          <Styles.FlashCardTitleContent>
-            {card.front}
-          </Styles.FlashCardTitleContent>
-          <Styles.FlashCardTagsList>
-            {card?.tags?.map(tag => (
-              <Styles.FlashCardTagItem key={tag.id} backgroundColor={tag.color}>
-                {tag.title}
-              </Styles.FlashCardTagItem>
-            ))}
-          </Styles.FlashCardTagsList>
-        </div>
-        <div className="flip-card-back">
-          <Styles.FlashCardStatus style={{ color: theme.colors.success }}>
-            Verso
-          </Styles.FlashCardStatus>
-          <Styles.FlashCardTitleContent>
-            {card.back}
-          </Styles.FlashCardTitleContent>
-        </div>
+    <Styles.Container>
+      <Styles.FlashCardContent>
+        <ReactCardFlip isFlipped={flipCard}>
+          <Styles.FrontContent>
+            <Styles.FlashCardStatus style={{ color: theme.colors.warning }}>
+              Frente
+            </Styles.FlashCardStatus>
+            <Styles.FlashCardTitleContent>
+              {card.front}
+            </Styles.FlashCardTitleContent>
+            <Styles.FlashCardTagsList>
+              {card?.tags?.map(tag => (
+                <Styles.FlashCardTagItem
+                  key={tag.id}
+                  backgroundColor={tag.color}
+                >
+                  {tag.title}
+                </Styles.FlashCardTagItem>
+              ))}
+            </Styles.FlashCardTagsList>
+          </Styles.FrontContent>
+
+          <Styles.BackContent>
+            <Styles.FlashCardStatus style={{ color: theme.colors.success }}>
+              Verso
+            </Styles.FlashCardStatus>
+            <Styles.FlashCardTitleContent>
+              {card.back}
+            </Styles.FlashCardTitleContent>
+          </Styles.BackContent>
+        </ReactCardFlip>
       </Styles.FlashCardContent>
       <Styles.FlashCardBtnsActions>
         <button className="flip" onClick={() => setFlipCard(state => !state)}>

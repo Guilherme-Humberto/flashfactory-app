@@ -1,50 +1,22 @@
 import styled, { css } from 'styled-components'
 
-export const Container = styled.div<{ flip?: boolean }>`
+export const Container = styled.div`
   position: relative;
-  width: 450px;
-  height: 250px;
-  border-radius: 5px;
-
-  ${props =>
-    props.flip &&
-    css`
-      .flip-card-inner {
-        transform: rotateY(180deg);
-      }
-    `}
 `
 export const FlashCardContent = styled.div`
-  position: relative;
-  width: 100%;
+  border-radius: 5px;
+  width: 450px;
   height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-
-  .flip-card-front,
-  .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  .flip-card-front {
-    border-radius: 10px;
-    background: ${props => props.theme.colors.secondary2};
-  }
-
-  .flip-card-back {
-    border-radius: 10px;
-    background-color: ${props => props.theme.colors.secondary2};
-    transform: rotateY(180deg);
-  }
+  padding: 30px;
+  background: ${props => props.theme.colors.secondary2};
 `
+export const FrontContent = styled.div`
+  min-height: 280px;
+`
+export const BackContent = styled.div`
+  min-height: 280px;
+`
+
 export const FlashCardStatus = styled.span`
   font-weight: bold;
 `
