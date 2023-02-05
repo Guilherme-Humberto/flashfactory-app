@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 const AdminDecksDetailsPage: React.FC = () => {
   const router = useRouter()
 
-  const [fetchTrigger, setFetchTrigger] = useState(false)
   const [deckData, setDeckData] = useState<IDeck>({} as IDeck)
   const [flashCardsData, setFlashCardsData] = useState<IFlashcard[]>([])
 
@@ -18,21 +17,22 @@ const AdminDecksDetailsPage: React.FC = () => {
 
   const getFlashCardsOfDeck = async (id: string) => {
     const { data: response } = await api.get(`/flashcard/list/deck/${id}`)
-    console.log(response)
     return setFlashCardsData(response)
   }
 
+  const fetchAll = () => {
+    getDeckById(String(router.query.id))
+    getFlashCardsOfDeck(String(router.query.id))
+  }
+
   useEffect(() => {
-    if (router.query?.id) {
-      getDeckById(String(router.query.id))
-      getFlashCardsOfDeck(String(router.query.id))
-    }
-  }, [fetchTrigger, router.query?.id])
+    if (router.query?.id) fetchAll()
+  }, [router.query?.id])
 
   return (
     <main id="admin-page">
       <DeckDetails
-        fetchTrigger={setFetchTrigger}
+        fetchTrigger={fetchAll}
         deck={deckData}
         flashcards={flashCardsData}
       />

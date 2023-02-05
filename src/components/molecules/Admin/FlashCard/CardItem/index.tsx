@@ -5,11 +5,18 @@ import * as Styles from './styles'
 import { theme } from 'themes/primary'
 
 interface Props {
-  deleteFlashCard: (cardId: number) => void
   card: Partial<IFlashcard>
+  flashCardData: (data: Partial<IFlashcard>) => void
+  modalAction: (value: string) => void
+  deleteFlashCard: (cardId: number) => void
 }
 
-const FlashCardItem: React.FC<Props> = ({ card, deleteFlashCard }) => {
+const FlashCardItem: React.FC<Props> = ({
+  card,
+  modalAction,
+  flashCardData,
+  deleteFlashCard
+}) => {
   const [flipCard, setFlipCard] = useState<boolean>(false)
 
   return (
@@ -24,7 +31,7 @@ const FlashCardItem: React.FC<Props> = ({ card, deleteFlashCard }) => {
           </Styles.FlashCardTitleContent>
           <Styles.FlashCardTagsList>
             {card?.tags?.map(tag => (
-              <Styles.FlashCardTagItem backgroundColor={tag.color}>
+              <Styles.FlashCardTagItem key={tag.id} backgroundColor={tag.color}>
                 {tag.title}
               </Styles.FlashCardTagItem>
             ))}
@@ -43,7 +50,13 @@ const FlashCardItem: React.FC<Props> = ({ card, deleteFlashCard }) => {
         <button className="flip" onClick={() => setFlipCard(state => !state)}>
           <IconFI.FiCornerDownRight size={18} />
         </button>
-        <button className="edit">
+        <button
+          className="edit"
+          onClick={() => {
+            flashCardData(card)
+            modalAction('edit-card')
+          }}
+        >
           <IconFI.FiEdit size={16} />
         </button>
         <button

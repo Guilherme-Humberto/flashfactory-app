@@ -8,20 +8,24 @@ import ModalComponent from '@/components/molecules/Modal'
 import FlashCardFormCreate from '@/components/molecules/Admin/FlashCard/Create'
 import FlashCardItem from '@/components/molecules/Admin/FlashCard/CardItem'
 import { api } from '@/services/api'
+import FlashCardFormUpdate from '@/components/molecules/Admin/FlashCard/Update'
 
 interface Props {
   deck: IDeck
   flashcards: IFlashcard[]
-  fetchTrigger: React.Dispatch<React.SetStateAction<boolean>>
+  fetchTrigger: () => void
 }
 
 const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
   const [searchDeck, setSearchDeck] = useState<string>('')
   const [modalAction, setModalAction] = useState<string>('')
+  const [flashCardData, setFlashCardData] = useState<Partial<IFlashcard>>(
+    {} as Partial<IFlashcard>
+  )
 
   const handleDeleteFlashCard = async (cardId: number) => {
     await api.delete(`/flashcard/delete/${cardId}/deck/${deck.id}`)
-    return fetchTrigger(true)
+    return fetchTrigger()
   }
 
   const handleCreateFlashCardTags = async (
@@ -37,6 +41,40 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
     })
 
     return await Promise.all(response)
+  }
+
+  const handleRemoveFlashCardTags = async (
+    cardId: number,
+    tagList: Partial<ITag[]>
+  ) => {
+    try {
+      const existsTags = flashCardData?.tags as ITag[]
+
+      if (tagList < existsTags) {
+        const removeTags = existsTags.filter(
+          (tag, index) => tag.id !== tagList[index]?.id
+        )
+
+        const response = removeTags.map(async tag => {
+          return await api.delete(`/tag/delete/${tag?.id}/flashcard/${cardId}`)
+        })
+
+        await Promise.all(response)
+      } else {
+        const addNewTags = tagList.filter(
+          (tag, index) =>
+            tag?.title != existsTags[index]?.title &&
+            tag?.color != existsTags[index]?.color
+        )
+
+        await handleCreateFlashCardTags(cardId, addNewTags)
+      }
+
+      setModalAction('')
+      return fetchTrigger()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleCreateNewFlashCard = async (props: {
@@ -55,7 +93,27 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
       }
 
       setModalAction('')
-      fetchTrigger(true)
+      return fetchTrigger()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleEditExistFlashCard = async (props: {
+    card: Partial<IFlashcard>
+    tags: Partial<ITag[]>
+  }) => {
+    try {
+      // await api.put(`/flashcard/update/${flashCardData?.id}/deck/${deck.id}`, {
+      //   front: props.card.front,
+      //   back: props.card.back,
+      //   deck: deck.id
+      // })
+
+      await handleRemoveFlashCardTags(Number(flashCardData?.id), props.tags)
+
+      // setModalAction('')
+      // return fetchTrigger()
     } catch (error) {
       console.log(error)
     }
@@ -93,6 +151,8 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
                 <FlashCardItem
                   key={card.id}
                   card={card}
+                  flashCardData={setFlashCardData}
+                  modalAction={setModalAction}
                   deleteFlashCard={handleDeleteFlashCard}
                 />
               ))}
@@ -104,6 +164,14 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
         <ModalComponent eventClose={() => setModalAction('')}>
           <FlashCardFormCreate
             handleCreateFlashCard={handleCreateNewFlashCard}
+          />
+        </ModalComponent>
+      )}
+      {modalAction === 'edit-card' && (
+        <ModalComponent eventClose={() => setModalAction('')}>
+          <FlashCardFormUpdate
+            card={flashCardData}
+            handleEditExistFlashCard={handleEditExistFlashCard}
           />
         </ModalComponent>
       )}
