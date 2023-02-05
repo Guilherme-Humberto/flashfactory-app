@@ -8,7 +8,7 @@ import SelectForm from '@/components/atoms/Select'
 
 interface Props {
   deckData: IDeck
-  fetch?: () => Promise<void>
+  fetchTrigger?: React.Dispatch<React.SetStateAction<boolean>>
   modalAction: React.Dispatch<React.SetStateAction<string>>
 }
 const statusOption = [
@@ -16,7 +16,11 @@ const statusOption = [
   { label: 'Inativo', value: false }
 ]
 
-const DeckFormUpdate: React.FC<Props> = ({ fetch, deckData, modalAction }) => {
+const DeckFormUpdate: React.FC<Props> = ({
+  fetchTrigger,
+  deckData,
+  modalAction
+}) => {
   const [title, setTitle] = useState(deckData.title)
   const [description, setDescription] = useState(deckData.description)
   const [status, setStatus] = useState<ISelect>(
@@ -33,7 +37,7 @@ const DeckFormUpdate: React.FC<Props> = ({ fetch, deckData, modalAction }) => {
         status: status?.value
       })
 
-      if (fetch) await fetch()
+      if (fetchTrigger) fetchTrigger(true)
       return modalAction('')
     } catch (error) {
       console.log(error)

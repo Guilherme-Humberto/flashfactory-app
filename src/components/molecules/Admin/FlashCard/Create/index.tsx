@@ -2,35 +2,30 @@ import React, { useState } from 'react'
 import Input from '@/components/atoms/Input'
 import * as Global from '@/styles/global'
 import * as Styles from './styles'
-import { api } from '@/services/api'
-import { useRouter } from 'next/router'
+import { IFlashcard, ITag } from '@/interfaces'
+import { theme } from 'themes/primary'
 
 interface Props {
-  deckId: number
-  modalAction: React.Dispatch<React.SetStateAction<string>>
+  handleCreateFlashCard: (data: {
+    card: Partial<IFlashcard>
+    tags: Partial<ITag[]>
+  }) => Promise<void>
 }
 
-const FlashCardFormCreate: React.FC<Props> = ({ deckId, modalAction }) => {
-  const router = useRouter()
-
+const FlashCardFormCreate: React.FC<Props> = ({ handleCreateFlashCard }) => {
   const [front, setFront] = useState('')
   const [back, setBack] = useState('')
   const [tagContent, setTagContent] = useState<string>('')
-  const [tagList, setTagList] = useState<string[]>([])
+  const [tagContentColor, setTagContentColor] = useState<string>(
+    theme.colors.primary
+  )
+  const [tagList, setTagList] = useState<ITag[]>([])
   const [activeInputTag, setActiveInputTag] = useState(false)
 
-  const handleCreateNewDeck = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     try {
       event.preventDefault()
-
-      await api.post('/flashcard/create', {
-        front,
-        back,
-        deck: deckId
-      })
-
-      modalAction('')
-      return router.reload()
+      await handleCreateFlashCard({ card: { front, back }, tags: tagList })
     } catch (error) {
       console.log(error)
     }
@@ -38,12 +33,28 @@ const FlashCardFormCreate: React.FC<Props> = ({ deckId, modalAction }) => {
 
   const addNewTagInList = () => {
     setTagContent('')
-    return setTagList([...tagList, tagContent])
+    setTagContentColor(theme.colors.primary)
+
+    const tagData = { title: tagContent, color: tagContentColor }
+    return setTagList([...tagList, tagData])
   }
 
-  const saveNewTagContent = () => {
+  const saveNewTag = () => {
     if (tagContent.length == 0) return setActiveInputTag(state => !state)
     return addNewTagInList()
+  }
+
+  const removeExistsTag = (tagItem: ITag) => {
+    const findTag = tagList.find(
+      tag => tag.title === tagItem.title && tag.color === tagItem.color
+    )
+
+    if (findTag) {
+      const removeTag = tagList.filter(
+        tag => tag.title !== tagItem.title && tag.color !== tagItem.color
+      )
+      return setTagList([...removeTag])
+    }
   }
 
   return (
@@ -53,7 +64,7 @@ const FlashCardFormCreate: React.FC<Props> = ({ deckId, modalAction }) => {
         Um baralhos permitem organizar os seus flashcards. <br /> Preencha as
         informações abaixo para criar um novo baralho.
       </Styles.SubTitle>
-      <Styles.Form onSubmit={handleCreateNewDeck}>
+      <Styles.Form onSubmit={handleSubmit}>
         <Input
           required
           isMultiple
@@ -77,12 +88,18 @@ const FlashCardFormCreate: React.FC<Props> = ({ deckId, modalAction }) => {
         <Styles.TagsWrapper>
           <label>Adicionar tags</label>
           <Styles.TagsList>
-            {tagList.map(tag => (
-              <Styles.TagItem>{tag}</Styles.TagItem>
+            {tagList.map((tag, index) => (
+              <Styles.TagItem
+                key={index}
+                style={{ color: tag.color }}
+                onClick={() => removeExistsTag(tag)}
+              >
+                {tag.title}
+              </Styles.TagItem>
             ))}
             <Styles.TagsInputAdd>
               <Styles.TagsBtnAdd
-                onClick={saveNewTagContent}
+                onClick={saveNewTag}
                 hasSave={tagContent.length > 1}
                 hasClose={tagContent.length == 0 && activeInputTag}
               >
@@ -96,13 +113,21 @@ const FlashCardFormCreate: React.FC<Props> = ({ deckId, modalAction }) => {
                   <Global.IconFI.FiCheck size={20} />
                 )}
               </Styles.TagsBtnAdd>
-              <Styles.InputTag
-                type="text"
-                placeholder="conteúdo"
-                value={tagContent}
-                activeInput={activeInputTag}
-                onChange={event => setTagContent(event.target.value)}
-              />
+              <Styles.InputGroup activeInput={activeInputTag}>
+                <Styles.InputTag
+                  type="text"
+                  placeholder="conteúdo"
+                  value={tagContent}
+                  onChange={event => setTagContent(event.target.value)}
+                />
+                <Styles.InputColorTagWrapper>
+                  <Styles.InputColorTag
+                    type="color"
+                    value={tagContentColor}
+                    onChange={event => setTagContentColor(event.target.value)}
+                  />
+                </Styles.InputColorTagWrapper>
+              </Styles.InputGroup>
             </Styles.TagsInputAdd>
           </Styles.TagsList>
         </Styles.TagsWrapper>

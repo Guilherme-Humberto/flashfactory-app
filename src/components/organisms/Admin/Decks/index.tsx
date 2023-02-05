@@ -20,7 +20,7 @@ const DecksInitial: React.FC = () => {
     totalPages: 0,
     currentPage: 1
   }
-
+  const [fetchTrigger, setFetchTrigger] = useState(false)
   const [modalAction, setModalAction] = useState<string>('')
   const [searchDeck, setSearchDeck] = useState<string>('')
   const [deckList, setDeckList] = useState<IDeck[]>([])
@@ -50,7 +50,7 @@ const DecksInitial: React.FC = () => {
 
   useEffect(() => {
     getDeckList()
-  }, [pagination.currentPage])
+  }, [fetchTrigger, pagination.currentPage])
 
   useEffect(() => {
     const filterSearch = deckList.filter(deck =>
@@ -159,14 +159,17 @@ const DecksInitial: React.FC = () => {
       </Styles.Container>
       {modalAction === 'create-deck' && (
         <ModalComponent eventClose={() => setModalAction('')}>
-          <DeckFormCreate fetch={getDeckList} modalAction={setModalAction} />
+          <DeckFormCreate
+            fetchTrigger={setFetchTrigger}
+            modalAction={setModalAction}
+          />
         </ModalComponent>
       )}
       {modalAction === 'update-deck' && (
         <ModalComponent eventClose={() => setModalAction('')}>
           <DeckFormUpdate
             deckData={deckData}
-            fetch={getDeckList}
+            fetchTrigger={setFetchTrigger}
             modalAction={setModalAction}
           />
         </ModalComponent>

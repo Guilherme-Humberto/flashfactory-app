@@ -2,8 +2,8 @@ import styled, { css } from 'styled-components'
 
 export const Container = styled.div<{ flip?: boolean }>`
   position: relative;
-  width: 400px;
-  height: 200px;
+  width: 450px;
+  height: 250px;
   border-radius: 5px;
 
   ${props =>
@@ -81,4 +81,21 @@ export const FlashCardBtnsActions = styled.div`
   button:hover {
     opacity: 1;
   }
+`
+export const FlashCardTagsList = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+`
+export const FlashCardTagItem = styled.span<{ backgroundColor: string }>`
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.8px;
+  padding: 0px 10px;
+  border-radius: 50px;
+  border: 1px solid ${props => `${props.backgroundColor}72`};
+  background: ${props => `${props.backgroundColor}18`};
+  color: ${props => `${props.theme.colors.white}d9`};
 `

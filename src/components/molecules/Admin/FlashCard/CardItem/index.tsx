@@ -1,25 +1,16 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
 import { IFlashcard } from '@/interfaces'
 import { IconFI } from '@/styles/global'
 import * as Styles from './styles'
 import { theme } from 'themes/primary'
-import { api } from '@/services/api'
 
 interface Props {
-  deckId: number
+  deleteFlashCard: (cardId: number) => void
   card: Partial<IFlashcard>
 }
 
-const FlashCardItem: React.FC<Props> = ({ deckId, card }) => {
-  const router = useRouter()
-
+const FlashCardItem: React.FC<Props> = ({ card, deleteFlashCard }) => {
   const [flipCard, setFlipCard] = useState<boolean>(false)
-
-  const handleDeleteFlashCard = async () => {
-    await api.delete(`/flashcard/delete/${card.id}/deck/${deckId}`)
-    return router.reload()
-  }
 
   return (
     <Styles.Container flip={flipCard}>
@@ -31,6 +22,13 @@ const FlashCardItem: React.FC<Props> = ({ deckId, card }) => {
           <Styles.FlashCardTitleContent>
             {card.front}
           </Styles.FlashCardTitleContent>
+          <Styles.FlashCardTagsList>
+            {card?.tags?.map(tag => (
+              <Styles.FlashCardTagItem backgroundColor={tag.color}>
+                {tag.title}
+              </Styles.FlashCardTagItem>
+            ))}
+          </Styles.FlashCardTagsList>
         </div>
         <div className="flip-card-back">
           <Styles.FlashCardStatus style={{ color: theme.colors.success }}>
@@ -48,7 +46,10 @@ const FlashCardItem: React.FC<Props> = ({ deckId, card }) => {
         <button className="edit">
           <IconFI.FiEdit size={16} />
         </button>
-        <button className="remove" onClick={handleDeleteFlashCard}>
+        <button
+          className="remove"
+          onClick={() => deleteFlashCard(Number(card.id))}
+        >
           <IconFI.FiTrash2 size={16} />
         </button>
       </Styles.FlashCardBtnsActions>

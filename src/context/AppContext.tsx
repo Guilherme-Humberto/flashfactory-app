@@ -1,5 +1,6 @@
-import { getCookie } from '@/utils/cookies'
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import { clearAllCoookies, getCookie } from '@/utils/cookies'
+import { useRouter } from 'next/router'
 
 interface IAppContext {
   user: any
@@ -8,11 +9,19 @@ interface IAppContext {
 const AppContext = createContext<IAppContext>({} as IAppContext)
 
 const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const router = useRouter()
   const [user, setUser] = useState<any>()
 
   useEffect(() => {
-    const userCookie = getCookie('user.data')
-    setUser(userCookie?.value)
+    const userData = getCookie('user.data')
+    const userToken = getCookie('user.token')
+
+    if (!userData.status || !userToken.status) {
+      clearAllCoookies()
+      router.push('/')
+    }
+
+    setUser(userData?.value)
   }, [])
 
   return (

@@ -68,21 +68,54 @@ export const TagsInputAdd = styled.div`
   align-items: center;
   cursor: pointer;
 `
-export const InputTag = styled.input<{ activeInput: boolean }>`
+export const InputGroup = styled.div<{ activeInput: boolean }>`
   position: absolute;
   left: 0;
   z-index: 1;
-  display: block;
-  padding-left: ${props => (props.activeInput ? '50px' : 'none')};
-  font-size: 16px;
+  display: grid;
+  align-items: center;
   height: 35px;
-  background: #1c2024;
-  border-radius: 100px;
-  width: ${props => (props.activeInput ? '200px' : '40px')};
+  grid-template-columns: 1fr 20px;
+  width: 40px;
   transition: 0.5s;
+  border-radius: 100px;
+  opacity: 0;
+
+  ${props =>
+    props.activeInput &&
+    css`
+      width: 200px;
+      opacity: 1;
+    `}
+`
+export const InputTag = styled.input`
+  font-size: 16px;
+  height: 100%;
+  width: 100%;
+  background: #1c2024;
+  padding-left: 48px;
+  border-radius: 100px;
 
   &::placeholder {
     color: #6f6767;
+  }
+`
+export const InputColorTagWrapper = styled.div`
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  overflow: hidden;
+`
+export const InputColorTag = styled.input`
+  border: 0;
+  padding: 0;
+  width: 200%;
+  height: 200%;
+  cursor: pointer;
+  transform: translate(-25%, -25%);
+
+  &::-webkit-color-swatch {
+    background-color: transparent !important;
   }
 `
 export const TagsList = styled.div`
@@ -90,4 +123,10 @@ export const TagsList = styled.div`
   align-items: center;
   gap: 20px;
 `
-export const TagItem = styled.div``
+export const TagItem = styled.span`
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`

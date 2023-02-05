@@ -7,7 +7,7 @@ import SelectForm from '@/components/atoms/Select'
 import { ISelect } from '@/interfaces'
 
 interface Props {
-  fetch?: () => Promise<void>
+  fetchTrigger?: React.Dispatch<React.SetStateAction<boolean>>
   modalAction: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -16,7 +16,7 @@ const statusOption = [
   { label: 'Inativo', value: false }
 ]
 
-const DeckFormCreate: React.FC<Props> = ({ fetch, modalAction }) => {
+const DeckFormCreate: React.FC<Props> = ({ fetchTrigger, modalAction }) => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [status, setStatus] = useState<ISelect>(statusOption[1])
@@ -31,7 +31,7 @@ const DeckFormCreate: React.FC<Props> = ({ fetch, modalAction }) => {
         status: status.value
       })
 
-      if (fetch) await fetch()
+      if (fetchTrigger) fetchTrigger(true)
       return modalAction('')
     } catch (error) {
       console.log(error)
