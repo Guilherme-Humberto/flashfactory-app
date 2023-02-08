@@ -62,10 +62,9 @@ export const FlashCardTagsList = styled.div`
   margin-top: 20px;
 `
 export const FlashCardTagItem = styled.span<{ backgroundColor: string }>`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0.8px;
-  padding: 0px 10px;
+  padding: 3px 15px;
   border-radius: 50px;
   border: 1px solid ${props => `${props.backgroundColor}72`};
   background: ${props => `${props.backgroundColor}18`};

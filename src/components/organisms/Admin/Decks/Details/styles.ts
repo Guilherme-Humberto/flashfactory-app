@@ -40,3 +40,36 @@ export const FlashCardsList = styled.div`
   align-items: center;
   gap: 20px;
 `
+
+export const FlashCardTagsList = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+`
+export const FlashCardTagItem = styled.span<{ backgroundColor: string }>`
+  font-size: 14px;
+  font-weight: 400;
+  padding: 3px 15px;
+  border-radius: 50px;
+  border: 1px solid ${props => `${props.backgroundColor}72`};
+  background: ${props => `${props.backgroundColor}18`};
+  color: ${props => `${props.theme.colors.white}d9`};
+`
+export const FlashCardContent = styled.p`
+  max-height: 500px;
+  overflow-y: scroll;
+  font-weight: 400;
+`
+export const FlashCardInfo = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #4f4a4a;
+
+  svg {
+    color: #a49696;
+  }
+`

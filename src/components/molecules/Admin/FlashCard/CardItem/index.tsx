@@ -58,6 +58,15 @@ const FlashCardItem: React.FC<Props> = ({
           <IconFI.FiCornerDownRight size={18} />
         </button>
         <button
+          className="flip"
+          onClick={() => {
+            flashCardData(card)
+            modalAction(`view-card.${flipCard ? 'back' : 'front'}-card`)
+          }}
+        >
+          <IconFI.FiMaximize size={18} />
+        </button>
+        <button
           className="edit"
           onClick={() => {
             flashCardData(card)

@@ -8,6 +8,7 @@ import ModalComponent from '@/components/molecules/Modal'
 import FlashCardFormCreate from '@/components/molecules/Admin/FlashCard/Create'
 import FlashCardItem from '@/components/molecules/Admin/FlashCard/CardItem'
 import { api } from '@/services/api'
+import { IconFI } from '@/styles/global'
 import FlashCardFormUpdate from '@/components/molecules/Admin/FlashCard/Update'
 
 interface Props {
@@ -174,6 +175,42 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
           />
         </ModalComponent>
       )}
+      {modalAction.split('.')[0] === 'view-card' &&
+        modalAction.split('.')[1] === 'front-card' && (
+          <ModalComponent eventClose={() => setModalAction('')}>
+            <Styles.FlashCardInfo>
+              Esta é a frente do card, clique no ícone{' '}
+              <IconFI.FiCornerDownRight size={18} /> para alterar a visualização
+              do conteúdo{' '}
+            </Styles.FlashCardInfo>
+            <Styles.FlashCardContent>
+              {flashCardData.front}
+            </Styles.FlashCardContent>
+            <Styles.FlashCardTagsList>
+              {flashCardData?.tags?.map(tag => (
+                <Styles.FlashCardTagItem
+                  key={tag.id}
+                  backgroundColor={tag.color}
+                >
+                  {tag.title}
+                </Styles.FlashCardTagItem>
+              ))}
+            </Styles.FlashCardTagsList>
+          </ModalComponent>
+        )}
+      {modalAction.split('.')[0] === 'view-card' &&
+        modalAction.split('.')[1] === 'back-card' && (
+          <ModalComponent eventClose={() => setModalAction('')}>
+            <Styles.FlashCardInfo>
+              Esta é a verso do card, clique no ícone{' '}
+              <IconFI.FiCornerDownRight size={18} /> para alterar a visualização
+              do conteúdo{' '}
+            </Styles.FlashCardInfo>
+            <Styles.FlashCardContent>
+              {flashCardData.back}
+            </Styles.FlashCardContent>
+          </ModalComponent>
+        )}
     </>
   )
 }
