@@ -20,7 +20,7 @@ export const BackContent = styled.div`
 export const FlashCardStatus = styled.span`
   font-weight: bold;
 `
-export const FlashCardTitleContent = styled.p`
+export const FlashCardTitleContent = styled.div`
   font-weight: 300;
   overflow: hidden;
   text-overflow: ellipsis;

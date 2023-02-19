@@ -57,7 +57,7 @@ export const FlashCardTagItem = styled.span<{ backgroundColor: string }>`
   background: ${props => `${props.backgroundColor}18`};
   color: ${props => `${props.theme.colors.white}d9`};
 `
-export const FlashCardContent = styled.p`
+export const FlashCardContent = styled.div`
   max-height: 500px;
   overflow-y: scroll;
   font-weight: 400;

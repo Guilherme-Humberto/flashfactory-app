@@ -15,8 +15,8 @@ export const Container = styled.div`
 export const ModalContent = styled.div`
   position: relative;
   padding: 50px;
-  width: 900px;
-  max-width: 100%;
+  max-width: 1200px;
+  width: 100%;
   border-radius: 10px;
   background: ${props => props.theme.colors.secondary};
 `

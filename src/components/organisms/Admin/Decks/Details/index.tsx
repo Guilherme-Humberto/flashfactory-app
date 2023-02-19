@@ -44,7 +44,7 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
     return await Promise.all(response)
   }
 
-  const handleRemoveFlashCardTags = async (
+  const handleUpdateFlashCardTags = async (
     cardId: number,
     tagList: Partial<ITag[]>
   ) => {
@@ -104,16 +104,14 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
     tags: Partial<ITag[]>
   }) => {
     try {
-      // await api.put(`/flashcard/update/${flashCardData?.id}/deck/${deck.id}`, {
-      //   front: props.card.front,
-      //   back: props.card.back,
-      //   deck: deck.id
-      // })
-
-      await handleRemoveFlashCardTags(Number(flashCardData?.id), props.tags)
-
-      // setModalAction('')
-      // return fetchTrigger()
+      await api.put(`/flashcard/update/${flashCardData?.id}/deck/${deck.id}`, {
+        front: props.card.front,
+        back: props.card.back,
+        deck: deck.id
+      })
+      await handleUpdateFlashCardTags(Number(flashCardData?.id), props.tags)
+      setModalAction('')
+      return fetchTrigger()
     } catch (error) {
       console.log(error)
     }
@@ -183,9 +181,9 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
               <IconFI.FiCornerDownRight size={18} /> para alterar a visualização
               do conteúdo{' '}
             </Styles.FlashCardInfo>
-            <Styles.FlashCardContent>
-              {flashCardData.front}
-            </Styles.FlashCardContent>
+            <Styles.FlashCardContent
+              dangerouslySetInnerHTML={{ __html: String(flashCardData.front) }}
+            />
             <Styles.FlashCardTagsList>
               {flashCardData?.tags?.map(tag => (
                 <Styles.FlashCardTagItem
@@ -206,9 +204,9 @@ const DeckDetails: React.FC<Props> = ({ deck, flashcards, fetchTrigger }) => {
               <IconFI.FiCornerDownRight size={18} /> para alterar a visualização
               do conteúdo{' '}
             </Styles.FlashCardInfo>
-            <Styles.FlashCardContent>
-              {flashCardData.back}
-            </Styles.FlashCardContent>
+            <Styles.FlashCardContent
+              dangerouslySetInnerHTML={{ __html: String(flashCardData.back) }}
+            />
           </ModalComponent>
         )}
     </>

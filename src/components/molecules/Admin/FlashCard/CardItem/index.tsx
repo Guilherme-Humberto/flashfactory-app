@@ -28,9 +28,9 @@ const FlashCardItem: React.FC<Props> = ({
             <Styles.FlashCardStatus style={{ color: theme.colors.warning }}>
               Frente
             </Styles.FlashCardStatus>
-            <Styles.FlashCardTitleContent>
-              {card.front}
-            </Styles.FlashCardTitleContent>
+            <Styles.FlashCardTitleContent
+              dangerouslySetInnerHTML={{ __html: String(card.front) }}
+            />
             <Styles.FlashCardTagsList>
               {card?.tags?.map(tag => (
                 <Styles.FlashCardTagItem
@@ -47,9 +47,9 @@ const FlashCardItem: React.FC<Props> = ({
             <Styles.FlashCardStatus style={{ color: theme.colors.success }}>
               Verso
             </Styles.FlashCardStatus>
-            <Styles.FlashCardTitleContent>
-              {card.back}
-            </Styles.FlashCardTitleContent>
+            <Styles.FlashCardTitleContent
+              dangerouslySetInnerHTML={{ __html: String(card.back) }}
+            />
           </Styles.BackContent>
         </ReactCardFlip>
       </Styles.FlashCardContent>

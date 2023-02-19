@@ -1,7 +1,7 @@
 import AdminHeader from '@/components/molecules/Admin/Header'
 import AdminMenuNavigation from '@/components/molecules/Admin/MenuNavigation'
 import { useAppContext } from '@/context/AppContext'
-import { IDeck } from '@/interfaces'
+import { IDeck, IFlashcard } from '@/interfaces'
 import { api } from '@/services/api'
 import React, { useEffect, useState } from 'react'
 import * as Styles from './styles'
@@ -10,6 +10,7 @@ import Input from '@/components/atoms/Input'
 import ModalComponent from '@/components/molecules/Modal'
 import DeckFormCreate from '@/components/molecules/Admin/Deck/Create'
 import DeckViewDetails from '@/components/molecules/Admin/Deck/ViewDetails'
+import RunFlashCards from '@/components/molecules/Admin/Deck/RunFlashCards'
 
 const AdminInitial: React.FC = () => {
   const { user } = useAppContext()
@@ -19,11 +20,31 @@ const AdminInitial: React.FC = () => {
   const [deckList, setDeckList] = useState<IDeck[]>([])
   const [deckData, setDeckData] = useState<IDeck>({} as IDeck)
   const [deckListFilter, setDeckListFilter] = useState<IDeck[]>([])
+  const [drawnFlashCardList, setDrawnFlashCardList] = useState<IFlashcard[]>([])
 
   const getDeckList = async () => {
     const { data } = await api.get('/deck/list')
     setDeckList(data)
     return setDeckListFilter(data)
+  }
+
+  const runFlashCards = (flashcard: IFlashcard[]) => {
+    const shuffleArray = (inputArray: any) => {
+      inputArray.sort(() => Math.random() - 0.5)
+    }
+
+    var cardIds = flashcard.map(card => card.id)
+    shuffleArray(cardIds)
+
+    const cardsExecuteSort: IFlashcard[] = []
+
+    cardIds.forEach(item => {
+      const card = flashcard.find(card => card.id == item)
+      cardsExecuteSort.push(card as IFlashcard)
+    })
+
+    setDrawnFlashCardList(cardsExecuteSort)
+    setModalAction('run-flashcards')
   }
 
   useEffect(() => {
@@ -81,7 +102,13 @@ const AdminInitial: React.FC = () => {
                         <Global.IconFI.FiEye />
                       </Styles.DeckButtonAction>
                       {item.flashcards.length > 0 ? (
-                        <Styles.DeckButtonAction className="fill">
+                        <Styles.DeckButtonAction
+                          className="fill"
+                          onClick={() => {
+                            setDeckData(item)
+                            runFlashCards(item.flashcards)
+                          }}
+                        >
                           <Global.IconFI.FiPlay />
                         </Styles.DeckButtonAction>
                       ) : (
@@ -118,6 +145,11 @@ const AdminInitial: React.FC = () => {
       {modalAction === 'view-deck' && (
         <ModalComponent eventClose={() => setModalAction('')}>
           <DeckViewDetails deck={deckData} />
+        </ModalComponent>
+      )}
+      {modalAction === 'run-flashcards' && (
+        <ModalComponent eventClose={() => setModalAction('')}>
+          <RunFlashCards deck={deckData} flashcards={drawnFlashCardList} />
         </ModalComponent>
       )}
     </>

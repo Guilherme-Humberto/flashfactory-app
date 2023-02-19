@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as Styles from './styles'
+import { useQuill } from 'react-quilljs'
+import 'quill/dist/quill.snow.css'
 
 interface InputProps {
   type: string
@@ -22,6 +24,19 @@ const Input: React.FC<InputProps> = ({
   setState,
   placeholder
 }) => {
+  const modules = {
+    toolbar: [['bold', 'italic', 'underline', 'strike']]
+  }
+
+  const { quill, quillRef } = useQuill({ modules })
+
+  useEffect(() => {
+    if (quill) {
+      quill.clipboard.dangerouslyPasteHTML(value)
+      quill.on('text-change', () => setState(quill.root.innerHTML))
+    }
+  }, [quill])
+
   return (
     <Styles.Container>
       {label && <Styles.Label>{label}</Styles.Label>}
@@ -34,13 +49,7 @@ const Input: React.FC<InputProps> = ({
           onChange={e => setState(e.target.value)}
         />
       ) : (
-        <Styles.TextArea
-          minHeight={minHeight}
-          required={required}
-          placeholder={placeholder}
-          value={value}
-          onChange={e => setState(e.target.value)}
-        />
+        <Styles.Editor ref={quillRef} />
       )}
     </Styles.Container>
   )

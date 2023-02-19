@@ -2,12 +2,15 @@ import React from 'react'
 import { IDeck } from '@/interfaces'
 import * as Styles from './styles'
 import * as Global from '@/styles/global'
+import { useRouter } from 'next/router'
 
 interface Props {
   deck: IDeck
 }
 
 const DeckViewDetails: React.FC<Props> = ({ deck }) => {
+  const router = useRouter()
+
   return (
     <Styles.Container>
       <Styles.DeckDate>
@@ -24,7 +27,10 @@ const DeckViewDetails: React.FC<Props> = ({ deck }) => {
           <strong>Total de flashcards:</strong> {deck.flashcards.length}
         </span>
       </Styles.DeckInfos>
-      <Global.ButtonDefault className="fill">
+      <Global.ButtonDefault
+        className="fill"
+        onClick={() => router.push(`/admin/decks/details/${deck.id}`)}
+      >
         Gerenciar baralho
       </Global.ButtonDefault>
     </Styles.Container>

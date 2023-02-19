@@ -4,6 +4,10 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  .ql-toolbar.ql-snow {
+    border: none;
+  }
 `
 export const Label = styled.label`
   font-size: 16px;
@@ -21,18 +25,9 @@ export const Input = styled.input`
     color: #6f6767;
   }
 `
-export const TextArea = styled.textarea<{ minHeight?: string }>`
-  width: 100%;
-  min-height: ${props => (props.minHeight ? props.minHeight : '150px')};
-  padding: 20px 30px;
+export const Editor = styled.div`
   background: #1c2024;
-  font-size: 18px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  resize: none;
-
-  &::placeholder {
-    color: #6f6767;
-  }
+  outline: none !important;
+  border: none !important;
+  height: 100px;
 `
